@@ -1,0 +1,14 @@
+:root {
+  color-scheme: dark;
+  --text-strong: rgba(255, 255, 255, 0.87);
+  --text-regular: rgba(255, 255, 255, 0.6);
+  --text-muted: rgba(255, 255, 255, 0.4);
+  --accent: #0184cf;
+  --danger: #fc3639;
+  --panel-bg: rgba(0, 0, 0, 0.58);
+  --card-bg: rgba(0, 0, 0, 0.68);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --radius: 4px;
+  --column-gap: 21px;
+  --font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}

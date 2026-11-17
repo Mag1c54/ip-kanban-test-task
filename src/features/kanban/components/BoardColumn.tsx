@@ -1,31 +1,27 @@
 import type { DragEvent } from 'react';
-import type { ColumnConfig, Task, TaskType } from '../types';
 import {
   ClockIcon,
   DoneIcon,
   EyeIcon,
   PlusIcon,
   ProgressIcon,
-} from './icons';
+} from '../../../shared/components/icons';
+import type {
+  BoardActions,
+  ColumnConfig,
+  Task,
+  TaskType,
+} from '../types';
 import { TaskCard } from './TaskCard';
 
-interface ColumnProps {
+interface BoardColumnProps {
   column: ColumnConfig;
   tasks: Task[];
   draft: Task | null;
   editingId: number | null;
   draggingId: number | null;
   isDragOver: boolean;
-  onAdd: (type: TaskType) => void;
-  onEdit: (id: number) => void;
-  onDelete: (id: number) => void;
-  onCancel: () => void;
-  onSave: (task: Task) => void;
-  onDragStart: (id: number) => void;
-  onDragEnd: () => void;
-  onDragOverColumn: (type: TaskType) => void;
-  onDragLeaveColumn: () => void;
-  onDropColumn: (type: TaskType) => void;
+  actions: BoardActions;
 }
 
 function ColumnIcon({ type }: { type: TaskType }) {
@@ -41,44 +37,38 @@ function ColumnIcon({ type }: { type: TaskType }) {
   }
 }
 
-export function Column({
+export function BoardColumn({
   column,
   tasks,
   draft,
   editingId,
   draggingId,
   isDragOver,
-  onAdd,
-  onEdit,
-  onDelete,
-  onCancel,
-  onSave,
-  onDragStart,
-  onDragEnd,
-  onDragOverColumn,
-  onDragLeaveColumn,
-  onDropColumn,
-}: ColumnProps) {
+  actions,
+}: BoardColumnProps) {
   const handleDragOver = (event: DragEvent<HTMLElement>) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = 'move';
-    onDragOverColumn(column.type);
+    actions.dragOverColumn(column.type);
   };
 
   const handleDragLeave = (event: DragEvent<HTMLElement>) => {
     const relatedTarget = event.relatedTarget;
 
-    if (relatedTarget instanceof Node && event.currentTarget.contains(relatedTarget)) {
+    if (
+      relatedTarget instanceof Node &&
+      event.currentTarget.contains(relatedTarget)
+    ) {
       return;
     }
 
-    onDragLeaveColumn();
+    actions.dragLeaveColumn();
   };
 
   const handleDrop = (event: DragEvent<HTMLElement>) => {
     event.preventDefault();
     event.stopPropagation();
-    onDropColumn(column.type);
+    actions.dropOnColumn(column.type);
   };
 
   return (
@@ -101,7 +91,7 @@ export function Column({
         <button
           className="column__add"
           type="button"
-          onClick={() => onAdd(column.type)}
+          onClick={() => actions.addTask(column.type)}
           aria-label={`Добавить задачу в колонку ${column.title}`}
           title="Добавить задачу"
         >
@@ -113,15 +103,11 @@ export function Column({
       <div className="column__cards">
         {draft ? (
           <TaskCard
+            key={`draft-${draft.id}`}
             task={draft}
             isEditing
             isDraft
-            onEdit={() => undefined}
-            onDelete={() => undefined}
-            onCancel={onCancel}
-            onSave={onSave}
-            onDragStart={() => undefined}
-            onDragEnd={() => undefined}
+            actions={actions}
           />
         ) : null}
 
@@ -131,12 +117,7 @@ export function Column({
             task={task}
             isEditing={editingId === task.id}
             isDragging={draggingId === task.id}
-            onEdit={() => onEdit(task.id)}
-            onDelete={() => onDelete(task.id)}
-            onCancel={onCancel}
-            onSave={onSave}
-            onDragStart={() => onDragStart(task.id)}
-            onDragEnd={onDragEnd}
+            actions={actions}
           />
         ))}
 

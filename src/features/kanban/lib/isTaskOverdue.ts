@@ -1,5 +1,5 @@
+import { startOfLocalDay } from '../../../shared/lib/date';
 import type { Task } from '../types';
-import { startOfLocalDay } from './date';
 
 /**
  * A task is overdue when its deadline is before the start of today.

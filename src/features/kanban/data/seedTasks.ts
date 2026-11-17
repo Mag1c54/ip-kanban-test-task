@@ -1,6 +1,6 @@
 import rawTasks from './tasks.json';
+import { isTask, sortTasks } from '../lib/task';
 import type { Task } from '../types';
-import { isTask, sortTasks } from '../utils/task';
 
 /** Demo data used only when localStorage has no saved board yet. */
 export const seedTasks: Task[] = sortTasks(

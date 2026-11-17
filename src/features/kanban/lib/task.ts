@@ -1,5 +1,5 @@
+import { addDays, startOfLocalDay } from '../../../shared/lib/date';
 import { TASK_TYPES, type Task, type TaskType } from '../types';
-import { addDays, startOfLocalDay } from './date';
 
 export function isTaskType(value: unknown): value is TaskType {
   return (

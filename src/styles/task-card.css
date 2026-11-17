@@ -1,0 +1,138 @@
+.task-card {
+  position: relative;
+  padding: 15px 16px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius);
+  background: var(--card-bg);
+  color: var(--text-strong);
+  cursor: grab;
+  backdrop-filter: blur(3px);
+  transition:
+    border-color 0.16s ease,
+    background-color 0.16s ease,
+    box-shadow 0.16s ease,
+    opacity 0.16s ease;
+}
+
+.task-card:hover {
+  border-color: var(--accent);
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.task-card:active {
+  cursor: grabbing;
+}
+
+.task-card:focus-within {
+  border-color: var(--accent);
+}
+
+.task-card--overdue {
+  border-color: rgba(252, 54, 57, 0.82);
+}
+
+.task-card--overdue:hover,
+.task-card--overdue:focus-within {
+  border-color: var(--danger);
+  box-shadow: 0 0 0 1px rgba(252, 54, 57, 0.16);
+}
+
+.task-card--dragging {
+  opacity: 0.35;
+  border-style: dashed;
+}
+
+.task-card--editing {
+  padding: 14px 16px;
+  border-color: var(--accent);
+  background: rgba(0, 0, 0, 0.7);
+  cursor: default;
+  box-shadow: 0 0 22px rgba(1, 132, 207, 0.08);
+}
+
+.task-card__actions {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  opacity: 0;
+  transform: translateY(-2px);
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
+}
+
+.task-card:hover .task-card__actions,
+.task-card:focus-within .task-card__actions {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  outline: none;
+  background: transparent;
+  color: var(--text-regular);
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.icon-button:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-strong);
+}
+
+.icon-button--danger:hover {
+  background: rgba(252, 54, 57, 0.12);
+  color: var(--danger);
+}
+
+.icon-button:focus-visible {
+  box-shadow: 0 0 0 2px rgba(1, 132, 207, 0.65);
+}
+
+.task-card__fields {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin: 0;
+}
+
+.task-card__row {
+  display: grid;
+  grid-template-columns: 78px minmax(0, 1fr);
+  align-items: start;
+  gap: 8px;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.task-card__label {
+  color: var(--text-regular);
+  font-size: inherit;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.task-card__value {
+  margin: 0;
+  color: var(--text-strong);
+  font-size: inherit;
+  font-weight: 600;
+  overflow-wrap: break-word;
+}
+
+.task-card__value--overdue {
+  color: var(--danger);
+}

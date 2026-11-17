@@ -1,4 +1,4 @@
-import { CloseIcon, SearchIcon } from './icons';
+import { CloseIcon, SearchIcon } from '../../../shared/components/icons';
 
 interface SearchBarProps {
   value: string;

@@ -1,5 +1,5 @@
 import type { Task } from '../../types';
-import { filterTasks } from '../search';
+import { filterTasks } from '../filterTasks';
 
 const task = (
   id: number,

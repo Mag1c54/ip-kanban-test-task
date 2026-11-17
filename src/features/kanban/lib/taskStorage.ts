@@ -1,16 +1,9 @@
-import { seedTasks } from '../data/seed';
+import { getLocalStorage } from '../../../shared/lib/localStorage';
+import { seedTasks } from '../data/seedTasks';
 import type { Task } from '../types';
 import { isTask, sortTasks } from './task';
 
 export const TASKS_STORAGE_KEY = 'ip-kanban.tasks.v1';
-
-function getStorage(): Storage | null {
-  try {
-    return typeof window !== 'undefined' ? window.localStorage : null;
-  } catch {
-    return null;
-  }
-}
 
 /**
  * Reads the board from localStorage.
@@ -19,9 +12,7 @@ function getStorage(): Storage | null {
  * data is used. An explicitly saved empty array is respected, so a user can
  * delete every task and refresh without the demo tasks coming back.
  */
-export function loadTasks(): Task[] {
-  const storage = getStorage();
-
+export function loadTasks(storage: Storage | null = getLocalStorage()): Task[] {
   if (!storage) {
     return sortTasks(seedTasks);
   }
@@ -45,9 +36,10 @@ export function loadTasks(): Task[] {
   }
 }
 
-export function saveTasks(tasks: Task[]): void {
-  const storage = getStorage();
-
+export function saveTasks(
+  tasks: Task[],
+  storage: Storage | null = getLocalStorage(),
+): void {
   if (!storage) {
     return;
   }

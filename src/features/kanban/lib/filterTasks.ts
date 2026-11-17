@@ -1,5 +1,5 @@
+import { isSameLocalDay, parseDateInput } from '../../../shared/lib/date';
 import type { Task } from '../types';
-import { isSameLocalDay, parseDateInput } from './date';
 
 /**
  * Filters tasks by a search query.

@@ -13,5 +13,10 @@ module.exports = {
       },
     ],
   },
-  collectCoverageFrom: ['src/utils/**/*.ts'],
+  collectCoverageFrom: [
+    'src/features/**/*.{ts,tsx}',
+    'src/shared/**/*.{ts,tsx}',
+    '!src/**/__tests__/**',
+    '!src/**/*.d.ts',
+  ],
 };

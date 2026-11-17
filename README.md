@@ -40,12 +40,13 @@ npm run start
 
 ## Unit-тесты
 
-Функция проверки просроченной задачи: `src/utils/isTaskOverdue.ts`.
+Функция проверки просроченной задачи:
+`src/features/kanban/lib/isTaskOverdue.ts`.
 
 **Path до файла с unit-тестом функции:**
 
 ```text
-src/utils/__tests__/isTaskOverdue.test.ts
+src/features/kanban/lib/__tests__/isTaskOverdue.test.ts
 ```
 
 Запуск:
@@ -56,7 +57,10 @@ npm run test
 
 Тест проверяет дедлайн в прошлом, дедлайн сегодня, будущий дедлайн, статус
 `done` и сравнение именно календарных дней (а не точного времени).
-Дополнительно есть тесты поиска: `src/utils/__tests__/search.test.ts`.
+
+Дополнительно покрыты чистые функции: фильтрация и группировка задач,
+reducer мутаций доски, валидация формы и загрузка/сохранение в `localStorage`.
+Все тесты лежат рядом с кодом в `src/features/kanban/lib/__tests__/`.
 
 ## Реализовано
 
@@ -81,7 +85,7 @@ npm run test
 - Состояние доски сохраняется в `localStorage` с ключом
   `ip-kanban.tasks.v1` и не теряется после перезагрузки.
 - Если в `localStorage` нет сохранённой доски, загружаются задачи из
-  `src/data/tasks.json`.
+  `src/features/kanban/data/tasks.json`.
 - Поиск:
   - обычный текст ищется по описанию без учёта регистра;
   - дата в формате `dd.mm.yyyy` ищет совпадение по `startDay` или `endDay`.
@@ -101,26 +105,64 @@ npm run test
 - Иконки, кнопки и поля имеют состояния hover/focus/active, предусмотрены
   `aria-label`, `aria-live` и навигация с клавиатуры.
 
+## Архитектура
+
+- `src/app/App.tsx` — только композиция страницы, без бизнес-логики.
+- `useKanbanBoard` владеет состоянием доски, drag&drop и сохранением.
+- Все мутации задач проходят через чистый `boardReducer` и покрыты тестами.
+- Компоненты получают данные и набор действий через props и не знают
+  о `localStorage`.
+- Поиск, валидация формы, сортировка и определение просрочки вынесены
+  в независимые функции в `lib/`.
+
 ## Структура проекта
+
+Проект разбит по фичам: состояние доски, UI канбана и переиспользуемые
+примитивы не зависят друг от друга через общий `App.tsx`.
 
 ```text
 src/
-  assets/              фон приложения
-  components/          Board-колонки, карточки, поиск, SVG-иконки
-  data/                исходный JSON и безопасная загрузка демо-задач
-  utils/
-    date.ts            форматирование/парсинг дат dd.mm.yyyy
-    isTaskOverdue.ts   функция определения просроченной задачи
-    search.ts          фильтрация по тексту и дате
-    storage.ts         загрузка/сохранение в localStorage
-    task.ts            валидация, сортировка, создание задачи
-    __tests__/         Jest-тесты
-  App.tsx
-  styles.css
-  types.ts
+  app/
+    App.tsx                    тонкий слой композиции приложения
+  features/kanban/
+    components/                Board, BoardColumn, TaskCard (+ View/Form),
+                               KanbanHeader, SearchBar
+    data/
+      tasks.json               исходные демо-задачи
+      seedTasks.ts             безопасная загрузка JSON
+    hooks/
+      useKanbanBoard.ts        состояние, drag&drop, persistence
+    lib/
+      boardReducer.ts          чистые мутации задач (add/update/delete/move)
+      filterTasks.ts           поиск по тексту и дате
+      groupTasks.ts            группировка задач по колонкам
+      isTaskOverdue.ts         определение просроченной задачи
+      task.ts                  валидация, сортировка, создание задачи
+      taskForm.ts              парсинг и валидация формы
+      taskStorage.ts           загрузка/сохранение в localStorage
+      __tests__/               Jest-тесты
+    constants.ts               конфигурация колонок
+    types.ts                   доменные типы и контракты действий
+  shared/
+    components/                SVG-иконки, IconButton, RoundButton
+    lib/
+      date.ts                  форматирование/парсинг дат dd.mm.yyyy
+      localStorage.ts          безопасный доступ к localStorage
+  styles/
+    tokens.css                 CSS-переменные
+    base.css                   reset, типографика, фон
+    layout.css                 сетка приложения
+    search.css                 поиск
+    board.css                  колонки
+    task-card.css              карточка задачи
+    task-form.css              форма и круглые кнопки
+    responsive.css             media queries
+    index.css                  точка входа стилей
+  assets/                      фон приложения
+  index.tsx                    bootstrap React
 docs/
-  design/              исходные материалы из задания (Figma, JSON, фон)
-  preview.jpg          скриншот приложения
+  design/                      исходные материалы из задания (Figma, JSON, фон)
+  preview.jpg                  скриншот приложения
 ```
 
 ## Деплой

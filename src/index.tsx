@@ -6,8 +6,8 @@ import '@fontsource/inter/latin-700.css';
 import '@fontsource/inter/cyrillic-400.css';
 import '@fontsource/inter/cyrillic-600.css';
 import '@fontsource/inter/cyrillic-700.css';
-import './styles.css';
-import { App } from './App';
+import './styles/index.css';
+import { App } from './app/App';
 
 const container = document.getElementById('root');
 
