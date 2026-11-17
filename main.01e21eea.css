@@ -127,7 +127,19 @@ button {
   background-clip: content-box;
 }
 
-/* ---------- Layout ---------- */
+/* ---------- Accessibility helpers ---------- */
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
 
 .app {
   width: 100%;
@@ -161,8 +173,6 @@ button {
   align-items: stretch;
   gap: var(--column-gap);
 }
-
-/* ---------- Search ---------- */
 
 .search {
   position: relative;
@@ -252,8 +262,6 @@ button {
   outline: none;
   box-shadow: 0 0 0 2px rgba(1, 132, 207, 0.7);
 }
-
-/* ---------- Columns ---------- */
 
 .column {
   display: flex;
@@ -359,8 +367,6 @@ button {
   line-height: 1.4;
   text-align: center;
 }
-
-/* ---------- Task card ---------- */
 
 .task-card {
   position: relative;
@@ -501,8 +507,6 @@ button {
   color: var(--danger);
 }
 
-/* ---------- Edit / create form ---------- */
-
 .task-card__form {
   display: flex;
   flex-direction: column;
@@ -633,22 +637,6 @@ button {
 .round-button:focus-visible {
   box-shadow: 0 0 0 2px rgba(1, 132, 207, 0.7);
 }
-
-/* ---------- Accessibility helpers ---------- */
-
-.visually-hidden {
-  position: absolute !important;
-  width: 1px !important;
-  height: 1px !important;
-  padding: 0 !important;
-  margin: -1px !important;
-  overflow: hidden !important;
-  clip: rect(0, 0, 0, 0) !important;
-  white-space: nowrap !important;
-  border: 0 !important;
-}
-
-/* ---------- Responsive ---------- */
 
 @media (max-width: 1150px) {
   .task-card__row {
@@ -835,4 +823,6 @@ button {
     animation-iteration-count: 1 !important;
   }
 }
+
+
 
